@@ -1,80 +1,52 @@
-# Deep Hedging: Neural Networks for Derivative Portfolio Management
+# Deep Hedging
 
-## Overview
-This repository contains a presentation on "Deep Hedging" by Buehler et al. (2018), which introduces a revolutionary framework for hedging derivatives using deep reinforcement learning instead of traditional mathematical models.
+**Learning hedging policies when transaction costs and trading constraints matter.**
 
-## Paper Details
-- **Title**: Deep Hedging
-- **Authors**: Hans Buehler, Lukas Gonon, Josef Teichmann, and Ben Wood
-- **Published**: 2018
-- **Link**: [arXiv:1802.03042](https://arxiv.org/abs/1802.03042)
+A team research implementation and interactive Streamlit presentation inspired by the Deep Hedging framework. The application compares neural trading policies with classical delta hedging on simulated market paths, then explores the resulting profit-and-loss distributions and downside risk.
 
-## Key Concepts Covered
+## Model workflow
 
-### 1. Problem Statement
-- Traditional hedging relies on idealized "complete market" assumptions
-- Real markets have frictions: transaction costs, liquidity constraints, bid-ask spreads
-- Need for model-free approaches that learn from data
-
-### 2. Deep Hedging Framework
-- Uses semi-recurrent neural networks to approximate optimal trading strategies
-- Maps market observables (prices, volatilities, past positions) to trading decisions
-- Optimizes under various risk measures (CVaR, entropic risk)
-
-### 3. Technical Architecture
-```
-Input: Market State (S_t, V_t) + Previous Position (δ_{t-1})
-    ↓
-Hidden Layers (ReLU activation)
-    ↓
-Output: Trading Decision (δ_t)
+```mermaid
+flowchart LR
+    A[GBM or Heston simulated paths] --> B[Trading state]
+    B --> C[MLP or recurrent policy]
+    C --> D[Stock / stock-and-call hedge]
+    D --> E[Transaction costs and terminal P&L]
+    E --> F[CVaR or entropic objective]
+    F --> C
+    E --> G[Delta baseline comparison]
 ```
 
-### 4. Key Results
-- Recovers Black-Scholes hedging in frictionless markets
-- Handles transaction costs with optimal scaling (ε^{2/3})
-- Scales to high dimensions (tested up to 10 assets)
-- Outperforms traditional Greeks-based approaches under market frictions
+## What you can explore
 
-## Presentation Contents
-- Introduction to hedging challenges
-- Mathematical framework and neural network architecture
-- Implementation details and optimization approach
-- Numerical experiments (Heston model)
-- Practical implications for risk management
+- Stock-only MLP and recurrent stock-plus-call hedging policies.
+- Geometric Brownian Motion and Heston market simulations.
+- Black–Scholes delta hedging as a classical reference.
+- Risk-sensitive objectives, transaction costs, strategy replay, and stress scenarios.
+- Streamlit views for results, trader summaries, replay, stress tests, and the gamma frontier.
 
-## Applications
-1. **Exotic derivative hedging** under realistic market conditions
-2. **Portfolio optimization** with transaction costs
-3. **Risk management** for large derivative books
-4. **Alternative to Greeks** in incomplete markets
+## Technology
 
-## Implementation Ideas
-- Replace traditional delta-hedging with learned strategies
-- Incorporate market microstructure into hedging decisions
-- Handle path-dependent options and complex payoffs
-- Adapt to changing market regimes without model recalibration
+Python · PyTorch · Streamlit · NumPy · Pandas · Matplotlib.
 
-## Future Directions
-- Extension to American options
-- Incorporation of market impact models
-- Multi-agent learning frameworks
-- Real-time adaptation to market conditions
+## Run the presentation
 
-## References
-```bibtex
-@article{buehler2018deep,
-  title={Deep hedging},
-  author={Buehler, Hans and Gonon, Lukas and Teichmann, Josef and Wood, Ben},
-  journal={arXiv preprint arXiv:1802.03042},
-  year={2018}
-}
+```sh
+pip install streamlit torch numpy pandas matplotlib
+streamlit run app_final1.py
 ```
 
-## Presentation File
-- `ppt final.pptx` - Main presentation slides
+Use an isolated Python environment. Training time depends on the simulation and model settings selected in the app.
 
-## Contact
-For questions or discussions about this presentation, please open an issue in this repository.
+## Repository guide
 
----
+| File | Purpose |
+| --- | --- |
+| [`app_final1.py`](app_final1.py) | Models, simulations, objectives, and interactive application |
+| [`ppt final.pptx`](ppt%20final.pptx) | Team presentation |
+
+## Research context
+
+Based on [Deep Hedging](https://arxiv.org/abs/1802.03042) by Buehler and colleagues. This repository is a student implementation and presentation, separate from the original authors’ code and published validation. Results use simulated price paths and depend on model and market assumptions; they are not evidence of live trading performance.
+
+Team work by Likhith Nagaralu Gurumurthy, Manvith Reddy Dalli, and Sneh Patel.
