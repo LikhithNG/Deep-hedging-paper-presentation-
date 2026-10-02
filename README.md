@@ -32,7 +32,7 @@ Python · PyTorch · Streamlit · NumPy · Pandas · Matplotlib.
 ## Run the presentation
 
 ```sh
-pip install streamlit torch numpy pandas matplotlib
+pip install -r requirements.txt
 streamlit run app_final1.py
 ```
 
@@ -44,6 +44,7 @@ Use an isolated Python environment. Training time depends on the simulation and 
 | --- | --- |
 | [`app_final1.py`](app_final1.py) | Models, simulations, objectives, and interactive application |
 | [`ppt final.pptx`](ppt%20final.pptx) | Team presentation |
+| [`requirements.txt`](requirements.txt) | Python dependencies |
 
 ## Research context
 
